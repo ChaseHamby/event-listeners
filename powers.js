@@ -1,13 +1,27 @@
+// function handlerFunction (event) {
+//     console.log("section", "power enabled")
+// };
 
-var powerList = document.getElementById('powerList');
+// let sectionFlight = document.querySelector("#activate-flight").addEventListener("click", handlerFunction); 
 
-function togglePower (newClass) {
-    powerList.classList.toggle(newClass)
-    console.log("powerList.classList", powerList.classList);
-}
+// let active_on = () => {
+//     let ids = document.querySelectorAll('section');
+//     for (i = 0; i < ids.length; i++) {
+//     ids[i].setAttribute("class", "power enabled")        
+//     }
+// };
 
-document.querySelector("#activate-flight").addEventListener("click", function () {
-    togglePower("flight")
-});
+// // let active_off = () => {
+// //     let ids = document.querySelectorAll('section');
+// //     for (i = 0; i < ids.length; i++) {
+// //     ids[i].setAttribute("class", "power disabled")        
+// //     }
+// // };
 
-Test
+// document.querySelector("#activate-all").addEventListener("click", function () {
+//     active_on();
+// });
+
+// // document.querySelector("#deactivate-all").addEventListener("click", function () {
+// //     active_off();
+// // });
