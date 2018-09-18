@@ -102,3 +102,4 @@ document.getElementById("add-rounding").addEventListener("click", function() {
 document.querySelector("body").addEventListener("click", function(event) {
     console.log("You clicked on the body of the DOM")
 })
+
