@@ -9,3 +9,5 @@ function togglePower (newClass) {
 document.querySelector("#activate-flight").addEventListener("click", function () {
     togglePower("flight")
 });
+
+Test
