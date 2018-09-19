@@ -1,115 +1,63 @@
-var outputEl = document.getElementById("output-target")
+// Making elements for toDo and notes below
 
-/*
-    You can get a reference to DOM elements and
-    directly attach an event handler. In this
-    example, we get every element with a class of
-    "article-section" and listen for when the
-    user clicks on the element. When that event
-    fires, the attached "handleSectionClick"
-    function gets executed.
- */
-var articleEl = document.getElementsByClassName("article-section")
-console.log(articleEl);
+const toDoInputElem = document.getElementById('toDoInput');
+const notesInputElem = document.getElementById('notesInput');
 
-/*
-    JavaScript, in the browser, automatically send the source
-    event to the handler function for the event.
-*/
-function handleSectionClick (event) {
-    console.log(event.target.innerHTML);
-}
+// Making variable for submit button and pulling from the submit button id below
 
-for (var i = 0; i < articleEl.length; i++) {
-    articleEl[i].addEventListener("click", handleSectionClick)
-}
+const submitToDoButtonElem = document.getElementById('submitToDoButton');
 
-/*
-    Define functions that hold logic to be performed when mouse
-    events are triggered by the browser.
-*/
-function handleHeaderMouseOver (event) {
-    outputEl.innerHTML = "You moved your mouse over me"
-}
+let counter = 0; // see this counter later down the page - used to number each card created - makes it possible for deleting cards
 
-function handleHeaderMouseOut(event) {
-    outputEl.innerHTML = "Why u leave me?"
-}
+// Making function that can use a delete button below
 
-const header = document.getElementById('page-header');
-/*
-    Get a reference to the DOM element with an id of
-    "page-header", and attach an event handler for the
-    mouseover, and mouseout, events.
- */
-header.addEventListener("mouseover", handleHeaderMouseOver)
-header.addEventListener("mouseout", handleHeaderMouseOut)
+const activateDeletes = () => {
+    const deleteButtons = document.getElementsByClassName('deleteButton');
+    console.log(deleteButtons);
 
-
-/*
-    We can also write an anonymous function (lamba expression)
-    in the addEventListener declaration instead of using a
-    function reference.
- */
-var fieldEl = document.getElementById("keypress-input")
-
-fieldEl.addEventListener("keyup", function (e) {
-    outputEl.innerHTML = e.target.value
-})
-
-
-/*
-  Now we can start making a truly interactive experience
-  combining HTML, JavaScript and CSS. When a user clicks
-  on a button in the DOM, we can listen for that event in
-  JavaScript, and then add, or remove, CSS classes.
-
-  In this example, I simply use the `toggle()` method on
-  the `classList` property of a DOM element to automatically
-  add and remove a class.
- */
-var guineaPig = document.getElementById("guinea-pig")
-
-function toggleClass (newClass) {
-  guineaPig.classList.toggle(newClass)
-  console.log("guineaPig.classList", guineaPig.classList)
-}
-
-document.getElementById("add-color").addEventListener("click", function() {
-    toggleClass("blue")
-})
-
-document.getElementById("make-large").addEventListener("click", function() {
-    toggleClass("large")
-})
-
-document.getElementById("add-border").addEventListener("click", function() {
-    toggleClass("bordered")
-})
-
-document.getElementById("add-rounding").addEventListener("click", function() {
-    toggleClass("rounded")
-})
-
-/*
-  EVENT BUBBLING:
-
-  You can add an event handler on the body tag, and since all
-  browser events bubble up to the body, you can then put in
-  conditional logic to handle the click event on many different
-  elements in one function.
- */
-document.querySelector("body").addEventListener("click", function(event) {
-    console.log(event);
-    if (event.target.classList.contains('article-section')) {
-        // poke ();
-        alert("You clicked on the body of the DOM")
+    for (let i = 0; i < deleteButtons.length; i++) {
+        const element = deleteButtons[i];
+        element.addEventListener("click", (e) => {
+            // card that the button was on 
+            const buttonIClicked = e.target;
+            const cardToDelete = buttonIClicked.parentNode.parentNode; // had to do parentNode twice cause the button is nested in 2 divs (card-body and then card)
+            cardToDelete.remove();
+        })
     }
-})
-
-const myFriendElems = document.getElementsByClassName('friends');
-for (let i = 0; i < myFriendElems.length; i++) {
-    const element = myFriendElems[i];
-    
-    element.addEventListener('click', poke);
 }
+
+// Print to DOM function below
+
+const printToDom = (stringToPrint, emptyDiv) => {
+    document.getElementById(emptyDiv).innerHTML += stringToPrint;
+}
+
+// Used a card from bootstrap and added it into this function below //
+
+const buildNewToDoCard = (toDo, notes) => {
+    let domString = `<div class="card w-25 m-2">
+    <div class="card-body">
+      <h5 class="card-title">${toDo}</h5>
+      <p class="card-text"> ${notes}</p>
+      <button href="#" class="btn btn-danger deleteButton" id=${counter}>Delete</a>
+    </div>
+  </div>`;
+
+    counter ++; // counts up one every time a card is created and helps the delete function know which card to delete
+    printToDom(domString,'toDoCards');
+    activateDeletes(); // this has to be called after the print to DOM because it needs to have cards to delete. 
+}
+
+// Everytime we click the submit button, it is calling this function below to pull from the to-do and notes
+
+submitToDoButtonElem.addEventListener("click", (e) => {
+    e.preventDefault(); // allows the page to load properly because it's using a form. If this isn't here, stuff won't work as well
+    buildNewToDoCard(toDoInputElem.value, notesInputElem.value); 
+});
+
+// Another way to do submit function - this way actually uses the submit event option below
+
+// document.getElementsByTagName('form')[0].addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     buildNewToDoCard(toDoInputElem.value, notesInputElem.value); 
+// });
