@@ -7,7 +7,9 @@ const notesInputElem = document.getElementById('notesInput');
 
 const submitToDoButtonElem = document.getElementById('submitToDoButton');
 
-// Making function that can use a delete button
+let counter = 0; // see this later down the page - used to number each card created - makes it possible for deleting cards
+
+// Making function that can use a delete button below
 
 const activateDeletes = () => {
     const deleteButtons = document.getElementsByClassName('deleteButton');
@@ -15,8 +17,11 @@ const activateDeletes = () => {
 
     for (let i = 0; i < deleteButtons.length; i++) {
         const element = deleteButtons[i];
-        element.addEventListener("click", () => {
-            console.log('they clicked delete!!');
+        element.addEventListener("click", (e) => {
+            // card that the button was on 
+            const buttonIClicked = e.target;
+            const cardToDelete = buttonIClicked.parentNode.parentNode; // had to do parentNode twice cause the button is nested in 2 divs (card-body and then card)
+            cardToDelete.remove();
         })
     }
 }
@@ -34,17 +39,18 @@ const buildNewToDoCard = (toDo, notes) => {
     <div class="card-body">
       <h5 class="card-title">${toDo}</h5>
       <p class="card-text"> ${notes}</p>
-      <button href="#" class="btn btn-primary deleteButton">Delete</a>
+      <button href="#" class="btn btn-primary deleteButton" id=${counter}>Delete</a>
     </div>
   </div>`;
 
+    counter ++; // counts up one every time a card is created and helps the delete function know which card to delete
     printToDom(domString,'toDoCards');
     activateDeletes(); // this has to be called after the print to DOM because it needs to have cards to delete. 
 }
 // Everytime we click the submit button, it is calling this function below to pull from the to-do and notes
 
 submitToDoButtonElem.addEventListener("click", (e) => {
-    e.preventDefault();
+    e.preventDefault(); // allows the page to load properly because it's using a form. If this isn't here, stuff won't work as well
     buildNewToDoCard(toDoInputElem.value, notesInputElem.value); 
 });
 
