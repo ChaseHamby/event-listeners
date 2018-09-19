@@ -7,7 +7,7 @@ const notesInputElem = document.getElementById('notesInput');
 
 const submitToDoButtonElem = document.getElementById('submitToDoButton');
 
-let counter = 0; // see this later down the page - used to number each card created - makes it possible for deleting cards
+let counter = 0; // see this counter later down the page - used to number each card created - makes it possible for deleting cards
 
 // Making function that can use a delete button below
 
@@ -35,11 +35,11 @@ const printToDom = (stringToPrint, emptyDiv) => {
 // Used a card from bootstrap and added it into this function below //
 
 const buildNewToDoCard = (toDo, notes) => {
-    let domString = `<div class="card" style="width: 18rem;">
+    let domString = `<div class="card w-25 m-2">
     <div class="card-body">
       <h5 class="card-title">${toDo}</h5>
       <p class="card-text"> ${notes}</p>
-      <button href="#" class="btn btn-primary deleteButton" id=${counter}>Delete</a>
+      <button href="#" class="btn btn-danger deleteButton" id=${counter}>Delete</a>
     </div>
   </div>`;
 
@@ -47,6 +47,7 @@ const buildNewToDoCard = (toDo, notes) => {
     printToDom(domString,'toDoCards');
     activateDeletes(); // this has to be called after the print to DOM because it needs to have cards to delete. 
 }
+
 // Everytime we click the submit button, it is calling this function below to pull from the to-do and notes
 
 submitToDoButtonElem.addEventListener("click", (e) => {
@@ -54,3 +55,9 @@ submitToDoButtonElem.addEventListener("click", (e) => {
     buildNewToDoCard(toDoInputElem.value, notesInputElem.value); 
 });
 
+// Another way to do submit function - this way actually uses the submit event option below
+
+// document.getElementsByTagName('form')[0].addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     buildNewToDoCard(toDoInputElem.value, notesInputElem.value); 
+// });
