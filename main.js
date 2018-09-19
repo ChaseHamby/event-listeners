@@ -7,6 +7,20 @@ const notesInputElem = document.getElementById('notesInput');
 
 const submitToDoButtonElem = document.getElementById('submitToDoButton');
 
+// Making function that can use a delete button
+
+const activateDeletes = () => {
+    const deleteButtons = document.getElementsByClassName('deleteButton');
+    console.log(deleteButtons);
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        const element = deleteButtons[i];
+        element.addEventListener("click", () => {
+            console.log('they clicked delete!!');
+        })
+    }
+}
+
 // Print to DOM function below
 
 const printToDom = (stringToPrint, emptyDiv) => {
@@ -20,11 +34,12 @@ const buildNewToDoCard = (toDo, notes) => {
     <div class="card-body">
       <h5 class="card-title">${toDo}</h5>
       <p class="card-text"> ${notes}</p>
-      <a href="#" id="deleteButton" class="btn btn-primary">Delete</a>
+      <button href="#" class="btn btn-primary deleteButton">Delete</a>
     </div>
   </div>`;
 
     printToDom(domString,'toDoCards');
+    activateDeletes(); // this has to be called after the print to DOM because it needs to have cards to delete. 
 }
 // Everytime we click the submit button, it is calling this function below to pull from the to-do and notes
 
